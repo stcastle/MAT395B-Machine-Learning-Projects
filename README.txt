@@ -1,0 +1,1 @@
+This is a collection of projects developed in an undergraduate introductory Machine Learning course. These projects were completed by Samuel Castle and Alden Hart at Davidson College during spring 2014.
