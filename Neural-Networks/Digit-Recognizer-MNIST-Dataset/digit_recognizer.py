@@ -30,6 +30,32 @@ def read_in_csv(filename):
 
     return data
 
+def get_blurred_data(data, max_blur):
+    '''Randomly adjusts the pixel values in the data.
+
+    parameters: data, the dataset to adjust, but not alter
+                max_blur, the maximum to add to the pixel values
+    returns: a new dataset containing the blurred results'''
+
+    blurred_data = []
+    for example in data:
+        blurred_example = [] #to add to new dataset
+        for pixl in example:
+            #add to the new example the value of the current pixel,
+            #altered by a random value in the range [-max_blur,max_blur]
+            blurred_example.append(pixl+(2*(random.random()-0.5)))
+        blurred_data.append(blurred_example)
+
+    return blurred_data
+
+def blur_data(data, labels, max_blur):
+    '''Blur data set in place'''
+    blurred_data = get_blurred_data(data, max_blur)
+    for i in range(len(blurred_data)):
+        data.append(blurred_data[i])
+        labels.append(labels[i]) #duplicate labels. order is unchanged
+
+
 def make_pybrain_dataset(data, labels):
     '''Converts a list of lists into a pybrain dataset object
 
@@ -102,6 +128,9 @@ for row in training_raw:
 ##    print num, outs[num]
 
 print 'made labels', time.time() - start
+
+blur = 10
+blur_data(training_raw, labels_raw, blur)
 
 training = make_pybrain_dataset(training_raw, labels_raw)
 #training._convertToOneOfMany() # Encodes class with one output neuron per class
